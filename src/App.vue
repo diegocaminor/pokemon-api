@@ -3,32 +3,32 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <px-header />
-    <px-pokemon-card msg="This is my pokemon card" />
     <div class="container">
-      <ul id="container-pokedex"></ul>
+      <ul>
+        <px-card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 import PxHeader from "@/components/PxHeader";
-import PxPokemonCard from "@/components/PxPokemonCard";
+import PxCard from "@/components/PxCard";
 import api from "@/api.js";
 
 export default {
   name: "App",
   components: {
     PxHeader,
-    PxPokemonCard
+    PxCard
   },
   data() {
     return {
-      pokemones: []
+      pokemons: []
     };
   },
   created() {
-    api.getPokemones();
-    // api.getJobs().then(pokemones => (this.pokemones = pokemones));
+    api.getPokemons().then(pokemons => (this.pokemons = pokemons));
   }
 };
 </script>
@@ -36,7 +36,7 @@ export default {
 <style>
 body {
   margin: 0;
-  background: orange;
+  background: orangered;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -48,13 +48,5 @@ body {
 div.container {
   display: flex;
   justify-content: center;
-}
-li.card {
-  margin: 10px 0px;
-  height: 200px;
-  width: 200px;
-  border: 1px solid red;
-  list-style: none;
-  background: white;
 }
 </style>

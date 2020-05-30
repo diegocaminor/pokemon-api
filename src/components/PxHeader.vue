@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 header nav {
-  background-color: rgb(5, 128, 41);
+  background-color: greenyellow;
   height: 50px;
 }
 ul {
