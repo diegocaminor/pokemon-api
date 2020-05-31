@@ -2,13 +2,14 @@ const url = "https://pokeapi.co/api/v2";
 const pokeCache = [];
 
 // async function getPokemons() {
-const getPokemons = async () => {
-  const res = await fetch(`${url}/pokemon?limit=20`);
+const getPokemons = async (offset) => {
+  const res = await fetch(`${url}/pokemon?limit=50&offset=${offset}`);
   const data = await res.json();
-  const pokemons = data.results.map((result, index) => ({
+  let pokemons = data.results.map((result, index) => ({
     ...result,
-    id: index + 1,
-    image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
+    id: offset + index + 1,
+    image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${offset +
+      index +
       1}.png`,
   }));
   return pokemons;

@@ -4,9 +4,10 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <px-header />
     <div class="container">
-      <ul>
+      <ul class="container-list">
         <px-card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
       </ul>
+      <button @click="loadMore(page+=1)" id="loadMoreBtn">Cargar más</button>
     </div>
   </div>
 </template>
@@ -25,15 +26,32 @@ export default {
   data() {
     return {
       pokemons: [],
-      pokemonDetail: {}
+      pokemonDetail: {},
+      page: 0,
+      perPage: 50
     };
   },
   created() {
-    api.getPokemons().then(pokemons => (this.pokemons = pokemons));
+    api
+      .getPokemons(0, this.pokemons)
+      .then(pokemons => (this.pokemons = pokemons));
+  },
+  methods: {
+    loadMore() {
+      let offset = this.perPage * this.page;
+      // let self = this; // bind reempla utilizar la variable self
+      api.getPokemons(offset, this.pokemons).then(
+        function(pokemons) {
+          this.pokemons = this.pokemons.concat(pokemons);
+          // other way to concat arrays
+          // [].push.apply(this.pokemons, pokemons);
+          // self.pokemons.concat(pokemons);
+        }.bind(this) // aquí está bind reemplazando self
+      );
+    }
   }
 };
 </script>
-
 <style>
 body {
   margin: 0;
@@ -46,8 +64,28 @@ body {
   text-align: center;
   color: #2c3e50;
 }
-div.container {
+
+ul.container-list {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: darkred;
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0px 1px 2px orangered;
+}
+
+#loadMoreBtn {
+  margin-bottom: 30px;
 }
 </style>

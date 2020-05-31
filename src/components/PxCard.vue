@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .card {
-  margin: 10px 0px;
+  margin: 10px 10px;
   height: 200px;
   width: 200px;
   list-style: none;

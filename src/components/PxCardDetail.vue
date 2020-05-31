@@ -53,17 +53,9 @@ export default {
   right: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: orangered;
-  color: white;
-  border-radius: 5px;
-  border: none;
-}
-
 button:hover {
   cursor: pointer;
   transform: translateY(-1px);
-  box-shadow: 0px 1px 2px darkred;
+  box-shadow: 0px 1px 2px orangered;
 }
 </style>
