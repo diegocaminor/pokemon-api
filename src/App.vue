@@ -5,8 +5,17 @@
     <px-header />
     <div class="container">
       <ul>
-        <px-card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
+        <px-card
+          v-on:show-modal="showModal"
+          v-on:close-modal="closeModal"
+          v-for="pokemon in pokemons"
+          :key="pokemon.id"
+          :pokemon="pokemon"
+        />
       </ul>
+      <template v-if="pokemonDetailIsEmpty(pokemonDetail)">
+        <px-card-detail :pokemonDetail="pokemonDetail" />
+      </template>
     </div>
   </div>
 </template>
@@ -14,21 +23,41 @@
 <script>
 import PxHeader from "@/components/PxHeader";
 import PxCard from "@/components/PxCard";
+import PxCardDetail from "@/components/PxCardDetail";
 import api from "@/api.js";
 
 export default {
   name: "App",
   components: {
     PxHeader,
-    PxCard
+    PxCard,
+    PxCardDetail
   },
   data() {
     return {
-      pokemons: []
+      pokemons: [],
+      pokemonDetail: {}
     };
   },
   created() {
     api.getPokemons().then(pokemons => (this.pokemons = pokemons));
+  },
+  methods: {
+    pokemonDetailIsEmpty(obj) {
+      return Object.keys(obj).length;
+    },
+    showModal(id) {
+      let self = this;
+      api.selectPokemon(id).then(function(pokemonDetail) {
+        console.log("ñaaaaa" + pokemonDetail);
+        console.log("this" + this);
+        self.pokemonDetail = pokemonDetail;
+        /*eslint no-debugger: "error"*/
+      });
+    },
+    closeModal() {
+      alert("closeModal! :(");
+    }
   }
 };
 </script>
